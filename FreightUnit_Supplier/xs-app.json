@@ -1,0 +1,16 @@
+{
+	"welcomeFile": "/FreightUnit_Supplier/index.html",
+	"authenticationMethod": "route",
+	"logout": {
+		"logoutEndpoint": "/do/logout"
+	},
+	"routes": [{
+		"source": "^/FU_Supplier",
+		"target": "/",
+		"destination": "FU_Supplier"
+	}, {
+		"source": "^/FreightUnit_Supplier/(.*)$",
+		"target": "$1",
+		"localDir": "webapp"
+	}]
+}
