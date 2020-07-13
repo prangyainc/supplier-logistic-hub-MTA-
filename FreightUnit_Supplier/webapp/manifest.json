@@ -58,6 +58,13 @@
 				"settings": {
 					"bundleName": "inc.FUS.FreightUnit_Supplier.i18n.i18n"
 				}
+			},
+			"oDataModel": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {
+
+				},
+				"preload": false
 			}
 		},
 		"resources": {

@@ -1,11 +1,64 @@
-<mvc:View controllerName="inc.FUS.FreightUnit_Supplier.controller.View1" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
-	<Shell id="shell">
-		<App id="app">
-			<pages>
-				<Page id="page" title="{i18n>title}">
-					<content></content>
-				</Page>
-			</pages>
-		</App>
-	</Shell>
+<mvc:View controllerName="inc.FUS.FreightUnit_Supplier.controller.View1" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m"
+xmlns:tnt="sap.tnt" xmlns:l="sap.ui.layout">
+	<tnt:ToolPage id="FU_supplier">
+		<tnt:header>
+			<tnt:ToolHeader>
+				<Button id="sideNavigationToggleButton" icon="sap-icon://menu2" type="Transparent" press=".onSideNavButtonPress">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+				<Image src="" id="logo"></Image>
+				<ToolbarSpacer/>
+				<Text text="supplier id"/>
+			</tnt:ToolHeader>
+		</tnt:header>
+		<tnt:sideContent>
+			<tnt:SideNavigation expanded="true" selectedKey="{oNavigationModel>/selectedKey}" itemSelect=".onItemSelect">
+				<tnt:NavigationList items="{oNavigationModel>/fixedNavigation}">
+					<tnt:NavigationListItem text="{oNavigationModel>title}" icon="{oNavigationModel>icon}" enabled="true" key="{oNavigationModel>key}"></tnt:NavigationListItem>
+				</tnt:NavigationList>
+			</tnt:SideNavigation>
+		</tnt:sideContent>
+		<tnt:mainContents>
+			<NavContainer id="pageContainer" initialPage="Dashboard">
+				<pages>
+					<Page id="Dashboard" title="Dashboard" titleLevel="H1">
+						<subHeader>
+							<Toolbar>
+								<l:VerticalLayout width="100%" class="gridWrapper">
+									<l:Grid position="Center">
+										<Text text="50 Requests"/>
+										<Text text="15 Drafts"/>
+										<Text text="20 Quotations"/>
+									</l:Grid>
+								</l:VerticalLayout>
+							</Toolbar>
+						</subHeader>
+						<l:Grid position="Center" width="80%">
+							<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="24Hrs">
+								<tileContent footer="requests"></tileContent>
+							</GenericTile>
+							<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="48Hrs">
+								<tileContent footer="requests"></tileContent>
+							</GenericTile>
+							<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="72Hrs">
+								<tileContent footer="requests"></tileContent>
+							</GenericTile>
+							<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="1week">
+								<tileContent footer="requests"></tileContent>
+							</GenericTile>
+						</l:Grid>
+						
+					</Page>
+					<Page id="Requests" title="Requests" titleLevel="H1">
+						
+					</Page>
+						<Page id="Drafts" title="Requests" titleLevel="H1">
+						
+					</Page>
+				</pages>
+			</NavContainer>
+		</tnt:mainContents>
+	</tnt:ToolPage>
 </mvc:View>

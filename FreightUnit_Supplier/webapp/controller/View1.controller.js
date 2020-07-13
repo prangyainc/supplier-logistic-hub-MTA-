@@ -6,76 +6,131 @@ sap.ui.define([
 
 	return Controller.extend("inc.FUS.FreightUnit_Supplier.controller.View1", {
 		onInit: function () {
+
+			var oDuplicateModel = new JSONModel("model/navigation.json");
+			this.getView().setModel(oDuplicateModel, "oNavigationModel");
+
+			this.fnPOST();
+
+		},
+		onItemSelect: function (oEvent) {
+			var oItem = oEvent.getParameter("item");
+			this.byId("pageContainer").to(this.getView().createId(oItem.getKey()));
+		},
+		onSideNavButtonPress: function () {
+			var oToolPage = this.byId("FU_supplier");
+			var bSideExpanded = oToolPage.getSideExpanded();
+
+			this._setToggleButtonTooltip(bSideExpanded);
+
+			oToolPage.setSideExpanded(!oToolPage.getSideExpanded());
+		},
+		_setToggleButtonTooltip: function (bLarge) {
+			var oToggleButton = this.byId("sideNavigationToggleButton");
+			if (bLarge) {
+				oToggleButton.setTooltip("Large Size Navigation");
+			} else {
+				oToggleButton.setTooltip("Small Size Navigation");
+			}
+		},
+		fnPOST: function () {
 			var that = this;
-			var oModel1 = this.getOwnerComponent().getModel("oDataModel");
-			/*	var sSelectedKey = "";
-				var oModel3 = new JSONModel();
-				oModel3.setProperty("/sSelectedKey", sSelectedKey);
-				this.getView().setModel(oModel3, "oViewModel");*/
-			var oModel2 = new JSONModel();
-			var sUrl = "/FU_Supplier/dashboard";
+			var sUrl = "/FU_Supplier/getPreference";
 			var oPayload = {
-				"id": "SUP1001",
-				"start": 0
+				"supplierId": "SUP1001"
+
 			};
-			/*$.ajax({
-				beforeSend: function (xhrObj) {
-					xhrObj.setRequestHeader("Content-Type", "application/json");
-					xhrObj.setRequestHeader("Accept", "application/json");
+			$.ajax({
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("X-CSRF-Token", that.fnToken());
+					xhr.setRequestHeader("Content-Type", "application/json");
+					xhr.setRequestHeader("Accept", "application/json");
+
 				},
 				url: sUrl,
 				type: "POST",
-				data: JSON.stringify(oPayload),
+				data: oPayload,
 				contentType: "application/json; charset=utf-8",
 				success: function (data) {
 					console.log("success" + data);
-					var oModel3 = new JSONModel(data);
-					that.getView().setModel(oModel3, "oTableEntries");
+					var oModel4 = new JSONModel(data);
+					that.getView().setModel(oModel4, "oTableEntries");
 				},
 				error: function (e) {
 					console.log("error: " + e);
 				}
 			});
-*/
-			/*$.ajax({
-				type: "POST",
-				url: "/FU_Supplier/dashboard",
-				data: {
-					"id": "SUP1001",
-					"start": 0
+		},
+		fnToken: function () {
+			this.token = "";
+			var that = this;
+			jQuery.ajax("/FU_Supplier/getcountries", {
+				type: "GET",
+				contentType: 'application/json',
+				data: null,
+				dataType: 'json',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('X-CSRF-Token', 'fetch');
 				},
+				success: function (data, response, jQxhr) {
+					that.token = jQxhr.getResponseHeader('X-CSRF-Token');
+					/*jQuery.ajaxSetup({
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader("X-CSRF-Token", jQxhr.getResponseHeader('X-CSRF-Token'));
+							sap.m.MessageToast.show("CSRF token set");
+							xhr.setRequestHeader("Content-Type", "application/json");
+							xhr.setRequestHeader("Accept", "application/json");
 
-				contentType: "application/json; charset=utf-8",
-				error: function (err) {
-					sap.m.MessageToast.show("Destination Failed");
-					console.log("error: " + err);
+						}
+					});*/
 				},
-				success: function (data) {
-					//oModel1.setData(data);
-					sap.m.MessageToast.show(" Congtz! you succussfully consumed destination from CF!");
-					console.log("success" + data);
-					oModel2.setData(data);
-					that.getView().setModel(oModel2, "oTableModel");
-
+				error: function (e) {
+					sap.m.MessageToast.show("CSRF token not set");
+					that.token = e.getResponseHeader('X-CSRF-Token');
 				}
 			});
-*/
-				$.ajax({
-					url: "/FU_Supplier/getcountries",
-					data: null,
-					async: true,
-					dataType: "json",
-					contentType: "application/json; charset=utf-8",
-					error: function (err) {
-						sap.m.MessageToast.show("Destination Failed");
-					},
-					success: function (data) {
-						sap.m.MessageToast.show(" Congtz! you succussfully consumed destination from CF!");
-						var oModel3= new JSONModel(data);
-						that.getView().setModel(oModel3,"oCountries");
-					},
-					type: "GET"
-				});
+			return that.token;
+		},
+		fnGET: function () {
+			var that = this;
+
+			var sUrl = "/FU_Supplier/dashboard";
+			var oPayload = {
+				"supplierId": "SUP1001",
+				"start": 0
+			};
+			jQuery.ajax("/FU_Supplier", {
+				type: "GET",
+				contentType: 'application/json',
+				dataType: 'json',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('X-CSRF-Token', 'fetch');
+				},
+				complete: function (response) {
+					jQuery.ajaxSetup({
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader("X-CSRF-Token", response.getResponseHeader('X-CSRF-Token'));
+							xhr.setRequestHeader("Content-Type", "application/json");
+							xhr.setRequestHeader("Accept", "application/json");
+
+						}
+					});
+				}
+			});
+			$.ajax({
+				url: sUrl,
+				type: "GET",
+				data: oPayload,
+				contentType: "application/json; charset=utf-8",
+				success: function (data) {
+
+					var oModel4 = new JSONModel(data);
+					that.getView().setModel(oModel4, "oTableEntries");
+				},
+				error: function (e) {
+					sap.m.MessageToast.show("Destination Failed");
+				}
+			});
 
 		}
 	});
