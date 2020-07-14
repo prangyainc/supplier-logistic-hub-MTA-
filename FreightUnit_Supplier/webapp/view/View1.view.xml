@@ -54,7 +54,7 @@ xmlns:tnt="sap.tnt" xmlns:l="sap.ui.layout">
 					<Page id="Requests" title="Requests" titleLevel="H1">
 						
 					</Page>
-						<Page id="Drafts" title="Requests" titleLevel="H1">
+						<Page id="Drafts" title="Drafts" titleLevel="H1">
 						
 					</Page>
 				</pages>
