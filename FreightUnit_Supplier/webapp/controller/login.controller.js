@@ -1,6 +1,7 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller"
-], function (Controller) {
+	"sap/ui/core/mvc/Controller",
+	"sap/ui/core/UIComponent"
+], function (Controller, UIComponent) {
 	"use strict";
 
 	return Controller.extend("inc.FUS.FreightUnit_Supplier.controller.login", {
@@ -11,8 +12,17 @@ sap.ui.define([
 		 * @memberOf inc.FUS.FreightUnit_Supplier.view.login
 		 */
 		onInit: function () {
-
+    //          	var oRouter = this.getRouter();
+				// oRouter.getRoute("View1").attachMatched(this._onRouteMatched, this);
 		},
+		onPressLogIn: function(){
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            oRouter.navTo("View1");
+        },
+			getRouter: function () {
+				return UIComponent.getRouterFor(this);
+			}
+			
 
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered

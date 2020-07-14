@@ -1,9 +1,27 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="inc.FUS.FreightUnit_Supplier.controller.login"
 	xmlns:html="http://www.w3.org/1999/xhtml">
-	<App>
+	<App id="app">
 		<pages>
 			<Page title="Title">
-				<content></content>
+				<content>
+					<VBox alignItems="Center" justifyContent="Center" class="styleMe">
+                            <Image src="/img/incture-logo.png" class="styleImageLogin" height="15%" width="35%"/>
+                            <HBox>
+                                <Button icon="sap-icon://email" class="styleIconLogin" type="Transparent"></Button>
+                                <Input placeholder="userID" height="40px" required="true" width="150%" class="styleInputLogin"></Input>
+                            </HBox>
+                            <HBox>
+                                <Button icon="sap-icon://locked" class="styleIconLogin" type="Transparent"></Button>
+                                <Input placeholder="Password" height="40px" required="true" width="150%" class="styleInputPasswordLogin styleInputLogin"
+                                    type="Password"></Input>
+                            </HBox>
+                            <HBox>
+                                <Button text="Log In"  class="styleLogIn" press="onPressLogIn" type="Transparent"></Button>
+                            </HBox>
+                            <Label text="Forgot Password?" class="styleLabelLogin sapUiSmallMarginTop"></Label>
+                            <html:hr></html:hr>
+                        </VBox>
+				</content>
 			</Page>
 		</pages>
 	</App>
